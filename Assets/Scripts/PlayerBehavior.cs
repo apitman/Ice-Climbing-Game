@@ -34,7 +34,6 @@ public class PlayerBehavior : MonoBehaviour
             float distanceFromBuddy = Vector3.Distance(buddy.transform.position, transform.position);
             if (distanceFromBuddy > ropeLength)
             {
-                Debug.Log("Setting state to hanging");
                 state = "hanging";
             }
         } else if (state == "anchoring")
@@ -49,7 +48,6 @@ public class PlayerBehavior : MonoBehaviour
             rb.useGravity = false;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            Debug.Log("Setting velocity to 0 and state to climbing");
             state = "climbing";
         }
     }
