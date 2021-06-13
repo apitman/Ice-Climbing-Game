@@ -29,11 +29,19 @@ public class BuddyBehavior : MonoBehaviour
         }
         if (state == "climbing")
         {
-            // Follow the player's position with a slight lag
-            float xDiff = player.transform.position.x - transform.position.x;
-            float yDiff = player.transform.position.y - transform.position.y - followDistance;
-            // transform.position = new Vector3(player.transform.position.x, player.transform.position.y - followDistance, player.transform.position.z);
-            transform.Translate(Time.deltaTime * xDiff * hSpeed, Time.deltaTime * yDiff * vSpeed, 0);
+            if (playerState != "done")
+            {
+                // Follow the player's position with a slight lag
+                float xDiff = player.transform.position.x - transform.position.x;
+                float yDiff = player.transform.position.y - transform.position.y - followDistance;
+                // transform.position = new Vector3(player.transform.position.x, player.transform.position.y - followDistance, player.transform.position.z);
+                transform.Translate(Time.deltaTime * xDiff * hSpeed, Time.deltaTime * yDiff * vSpeed, 0);
+            } else
+            {
+                Debug.Log("Buddy moving to done spot");
+                // Special movement to get alongside Player
+                transform.Translate((player.transform.position.x - transform.position.x + 2) * Time.deltaTime, (player.transform.position.y - transform.position.y) * Time.deltaTime, 0);
+            }
         } else if (state == "falling")
         {
             GetComponent<Rigidbody>().useGravity = true;

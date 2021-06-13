@@ -6,7 +6,7 @@ public class PlayerBehavior : MonoBehaviour
 {
     public float hSpeed = 1.0f;
     public float vSpeed = 1.0f;
-    public string state = "climbing"; // climbing, falling, anchoring, hanging
+    public string state = "climbing"; // climbing, falling, anchoring, hanging, done
     public GameObject buddy;
     public float ropeLength = 5f;
 
@@ -26,7 +26,29 @@ public class PlayerBehavior : MonoBehaviour
 
         if (state == "climbing")
         {
-            transform.Translate(-1 * Input.GetAxis("Horizontal") * Time.deltaTime * hSpeed, Time.deltaTime * vSpeed, 0);
+            if (transform.position.y <= 45.55)
+            {
+                // Don't let the player go out of bounds
+                float xDiff = -1 * Input.GetAxis("Horizontal") * Time.deltaTime * hSpeed;
+                if (transform.position.x >= 4.5)
+                {
+                    if (xDiff > 0)
+                    {
+                        xDiff = 0;
+                    }
+                }
+                if (transform.position.x <= -4.5)
+                {
+                    if (xDiff < 0)
+                    {
+                        xDiff = 0;
+                    }
+                }
+                transform.Translate(xDiff, Time.deltaTime * vSpeed, 0);
+            } else
+            {
+                state = "done";
+            }
         } else if (state == "falling")
         {
             GetComponent<Rigidbody>().useGravity = true;
