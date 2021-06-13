@@ -42,7 +42,6 @@ public class BuddyBehavior : MonoBehaviour
             if (distanceFromPlayer > ropeLength)
             {
                 state = "hanging";
-                GetComponent<Rigidbody>().useGravity = false;
             }
         } else if (state == "anchoring")
         {
@@ -52,6 +51,11 @@ public class BuddyBehavior : MonoBehaviour
             }
         } else if (state == "hanging")
         {
+            Rigidbody rb = GetComponent<Rigidbody>();
+            rb.useGravity = false;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            Debug.Log("Setting velocity to 0 and state to climbing");
             state = "climbing";
         }
 
