@@ -9,6 +9,8 @@ public class BuddyBehavior : MonoBehaviour
     public Material ropeMaterial;
     public float hSpeed = 1.0f;
     public float vSpeed = 1.0f;
+    public string state = "climbing"; // climbing, falling, anchoring, hanging
+    public float ropeLength = 5f;
 
     // Start is called before the first frame update
     void Start()
@@ -21,11 +23,37 @@ public class BuddyBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Follow the player's position with a slight lag
-        float xDiff = player.transform.position.x - transform.position.x;
-        float yDiff = player.transform.position.y - transform.position.y - followDistance;
-        // transform.position = new Vector3(player.transform.position.x, player.transform.position.y - followDistance, player.transform.position.z);
-        transform.Translate(Time.deltaTime * xDiff * hSpeed, Time.deltaTime * yDiff * vSpeed, 0);
+        string playerState = player.GetComponent<PlayerBehavior>().state;
+        if (playerState == "falling" && state == "climbing") {
+            state = "anchoring";
+        }
+        if (state == "climbing")
+        {
+            // Follow the player's position with a slight lag
+            float xDiff = player.transform.position.x - transform.position.x;
+            float yDiff = player.transform.position.y - transform.position.y - followDistance;
+            // transform.position = new Vector3(player.transform.position.x, player.transform.position.y - followDistance, player.transform.position.z);
+            transform.Translate(Time.deltaTime * xDiff * hSpeed, Time.deltaTime * yDiff * vSpeed, 0);
+        } else if (state == "falling")
+        {
+            GetComponent<Rigidbody>().useGravity = true;
+
+            float distanceFromPlayer = Vector3.Distance(player.transform.position, transform.position);
+            if (distanceFromPlayer > ropeLength)
+            {
+                state = "hanging";
+                GetComponent<Rigidbody>().useGravity = false;
+            }
+        } else if (state == "anchoring")
+        {
+            if (playerState == "climbing" && player.transform.position.y - transform.position.y - followDistance > 0)
+            {
+                state = "climbing";
+            }
+        } else if (state == "hanging")
+        {
+            state = "climbing";
+        }
 
         // Draw a line between buddy and player
         LineRenderer lineRenderer = GetComponent<LineRenderer>();

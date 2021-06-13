@@ -16,10 +16,12 @@ public class DelayedBreak : MonoBehaviour
         yield return new WaitForSeconds(delayTime);
         if (other.gameObject.name == "Player")
         {
-            Debug.Log("Countdown is over for Player");
+            other.gameObject.GetComponent<PlayerBehavior>().state = "falling";
+            Destroy(gameObject);
         } else if (other.gameObject.name == "Buddy")
         {
-            Destroy(other.gameObject);
+            other.gameObject.GetComponent<BuddyBehavior>().state = "falling";
+            Destroy(gameObject);
         }
     }
 }
