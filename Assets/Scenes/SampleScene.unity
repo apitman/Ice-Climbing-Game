@@ -550,7 +550,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1424824154}
-  followDistance: 3.5
+  followDistance: 3
+  ropeMaterial: {fileID: 2100000, guid: 713575bc7affa1a418cb18dc820aea54, type: 2}
+  hSpeed: 2
+  vSpeed: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
