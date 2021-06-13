@@ -36,7 +36,9 @@ sysinfo.txt
 *.unitypackage
 
 # Andrew's additions
-WebBuild/
-WebBuild.zip
+Web Build/
+Web Build.zip
 Logs/
+Windows Build/
+Itch Screenshots/
 
