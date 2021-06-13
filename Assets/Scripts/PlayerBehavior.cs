@@ -9,6 +9,8 @@ public class PlayerBehavior : MonoBehaviour
     public string state = "climbing"; // climbing, falling, anchoring, hanging, done
     public GameObject buddy;
     public float ropeLength = 5f;
+    public GameObject winText;
+    public GameObject loseText;
 
     // Start is called before the first frame update
     void Start()
@@ -54,9 +56,12 @@ public class PlayerBehavior : MonoBehaviour
             GetComponent<Rigidbody>().useGravity = true;
 
             float distanceFromBuddy = Vector3.Distance(buddy.transform.position, transform.position);
-            if (distanceFromBuddy > ropeLength)
+            if (distanceFromBuddy > ropeLength && buddyState != "falling")
             {
                 state = "hanging";
+            } else if (transform.position.y < -100)
+            {
+                loseText.SetActive(true);
             }
         } else if (state == "anchoring")
         {
@@ -71,6 +76,9 @@ public class PlayerBehavior : MonoBehaviour
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             state = "climbing";
+        } else if (state == "done")
+        {
+            winText.SetActive(true);
         }
     }
 }

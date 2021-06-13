@@ -47,7 +47,7 @@ public class BuddyBehavior : MonoBehaviour
             GetComponent<Rigidbody>().useGravity = true;
 
             float distanceFromPlayer = Vector3.Distance(player.transform.position, transform.position);
-            if (distanceFromPlayer > ropeLength)
+            if (distanceFromPlayer > ropeLength && playerState != "falling")
             {
                 state = "hanging";
             }
